@@ -3341,7 +3341,7 @@ public function jap_array() {
 );
 }
 
-	public static String hin_commands() {
+	public function hin_commands() {
 		return array(
 		"",
 		"पवित्र बाइबिल",
@@ -3359,7 +3359,7 @@ public function jap_array() {
 		);
 		}
 		
-	public static String hin_array() {
+	public function hin_array() {
 		return array(
 		"",
 		"-उत्पत्ति",
@@ -3431,7 +3431,7 @@ public function jap_array() {
 	);
 	}
 
-	public static String ara_commands() {
+	public function ara_commands() {
 		return array(
 		"",
 		"الكتاب المقدس",
@@ -3449,7 +3449,7 @@ public function jap_array() {
 		);
 		}
 	
-	public static String ara_array() {
+	public function ara_array() {
 		return array(
 		"",
 		"التكوين",
@@ -3521,7 +3521,7 @@ public function jap_array() {
 	);
 	}
 	
-	public static String heb_commands() {
+	public function heb_commands() {
 		return array(
 		"",
 		"הקודש במקרא",
@@ -3539,7 +3539,7 @@ public function jap_array() {
 		);
 		}
 		
-	public static String heb_array() {
+	public function heb_array() {
 		return array(
 		"",
 		"בראשית",
@@ -3611,7 +3611,7 @@ public function jap_array() {
 	);
 	}
 	
-public static String ru_commands() {
+public function ru_commands() {
 		return array(
 		"",
 "Библия",
@@ -3629,7 +3629,7 @@ public static String ru_commands() {
 );
 }
 
-	public static String ru_array() {
+	public function ru_array() {
 		return array(
 		"",
 		"ПЕРВАЯ КНИГА МОИСЕЕВА: БЫТИЕ",
@@ -3697,11 +3697,11 @@ public static String ru_commands() {
 "ПОСЛАНИЕ К ТИТУ СВЯТОГО АПОСТОЛА ПАВЛА",
 "ПОСЛАНИЕ К ФИЛИМОНУ СВЯТОГО АПОСТОЛА ПАВЛА",
 "ПОСЛАНИЕ К ЕВРЕЯМ",
-"ОТКРОВЕНИЕ СВЯТОГО ИОАННА БОГОСЛОВА";
+"ОТКРОВЕНИЕ СВЯТОГО ИОАННА БОГОСЛОВА"
 	);
 	}
 
-public static String en_commands() {
+public function en_commands() {
 		return array(
 		"",
 "The Bible",
@@ -3718,7 +3718,7 @@ public static String en_commands() {
 );
 }
 
-	public static String en_array() {
+	public function en_array() {
 		return array(
 		"",
 		"GENESIS",
@@ -3790,7 +3790,7 @@ public static String en_commands() {
 	);
 	}
 
-public static String de_commands() {
+public function de_commands() {
 		return array(
 		"",
 "Bibel",
@@ -3807,7 +3807,7 @@ public static String de_commands() {
 );
 }
 
-	public static String de_array() {
+	public function de_array() {
 		return array(
 		"",
 		"1. Mose",
@@ -3879,7 +3879,7 @@ public static String de_commands() {
 	);
 	}
 
-public static String es_commands() {
+public function es_commands() {
 		return array(
 		"",
 "Biblia",
@@ -3896,7 +3896,7 @@ public static String es_commands() {
 );
 }
 
-	public static String es_array() {
+	public function es_array() {
 		return array(
 		"",
 		"Génesis",
@@ -3968,7 +3968,7 @@ public static String es_commands() {
 	);
 	}
 
-public static String fr_commands() {
+public function fr_commands() {
 		return array(
 		"",
 "La Bible",
@@ -3985,7 +3985,7 @@ public static String fr_commands() {
 );
 }
 
-	public static String fr_array() {
+	public function fr_array() {
 		return array(
 		"",
 		"Genèse",
@@ -4057,7 +4057,7 @@ public static String fr_commands() {
 	);
 	}
 
-public static String it_commands() {
+public function it_commands() {
 		return array(
 		"",
 "Bibbia",
@@ -4074,7 +4074,7 @@ public static String it_commands() {
 );
 }
 
-	public static String it_array() {
+	public function it_array() {
 		return array(
 		"",
 		"Genesi",
@@ -4146,7 +4146,7 @@ public static String it_commands() {
 	);
 	}
 
-public static String tr_commands() {
+public function tr_commands() {
 		return array(
 		"",
 "Kutsal Kitap",
@@ -4163,7 +4163,7 @@ public static String tr_commands() {
 );
 }
 
-	public static String tr_array() {
+	public function tr_array() {
 		return array(
 		"",
 		"Yaratılış",
@@ -4235,7 +4235,7 @@ public static String tr_commands() {
 	);
 	}
 
-public static String pt_commands() {
+public function pt_commands() {
 		return array(
 		"",
 "Bíblia",
@@ -4252,7 +4252,7 @@ public static String pt_commands() {
 );
 }
 
-	public static String pt_array() {
+	public function pt_array() {
 		return array(
 		"",
 		"Gênesis",
@@ -4324,7 +4324,7 @@ public static String pt_commands() {
 	);
 	}
 
-public static String gr_commands() {
+public function gr_commands() {
 		return array(
 		"",
 "Αγία Γραφή",
@@ -4341,7 +4341,7 @@ public static String gr_commands() {
 );
 }
 
-	public static String gr_array() {
+	public function gr_array() {
 		return array(
 		"",
 		"ΓΕΝΕΣΙΣ",
@@ -4413,7 +4413,7 @@ public static String gr_commands() {
 	);
 	}
 
-public static String zh_commands() {
+public function zh_commands() {
 		return array(
 		"",
 "简体中文和合本",
@@ -4430,7 +4430,7 @@ public static String zh_commands() {
 );
 }
 
-	public static String zh_array() {
+	public function zh_array() {
 		return array(
 		"",
 		"创世纪",

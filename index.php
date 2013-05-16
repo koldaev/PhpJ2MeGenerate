@@ -9,6 +9,16 @@
 	border: 1px solid #FFFFFF; background: #FFF;cursor:pointer;
 }
 </style>
+<script type="text/javascript">
+var a;
+function toSequence() {
+  a.value = escape(a.value).replace(/%u/g, '\\u');
+}
+window.onload = function() {
+  a = $('a');
+}
+
+</script>
 </head>
 <body>
 <br><br>
@@ -18,6 +28,60 @@
 define('DBHOST', 'localhost');
 define('DBLOG','root');
 define('DBPASS', "zxasqw12");
+
+$langdomens = array (
+"",
+"af",
+"am",
+"ara",
+"be",
+"bg",
+"bn",
+"cs",
+"da",
+"de",
+"du",
+"en",
+"es",
+"et",
+"fa",
+"fi",
+"fr",
+"gr",
+"heb",
+"hin",
+"hr",
+"hu",
+"hy",
+"is",
+"it",
+"jap",
+"ka",
+"kk",
+"ko",
+"la",
+"lt",
+"lv",
+"mk",
+"no",
+"pl",
+"pt",
+"ro",
+"ru",
+"sk",
+"sq",
+"sr",
+"sv",
+"sw",
+"tam",
+"th",
+"tl",
+"tr",
+"uk",
+"ur",
+"vi",
+"zh"
+);
 
 function dbConnect() {
 	
@@ -87,40 +151,24 @@ include_once('languages50.php');
 
 $foo = new Languages50();
 
-
+//генерация классов интерфейса Библии
 function javabible_generator1($language) {
-
-
-if ($language == 'ru') {
-
-	$glavcount = array(0,50,40,27,36,34,24,21,4,31,24,22,25,29,36,10,13,10,42,150,31,12,8,66,52,5,48,14,14,3,9,1,4,7,3,3,3,2,14,4,28,16,24,21,28,
-	5,5,3,5,1,1,1,16,16,13,6,6,4,4,5,3,6,4,3,1,13,22);
-	//книги Библии, которые нужно разделить (если на русском языке)
-	$bigbook = array(1,2,3,4,5,6,7,9,10,11,12,13,14,16,18,19,20,23,24,26,27,40,41,42,43,44,
-	52,53,54,66);
-} else {
-	$glavcount = array(0,50,40,27,36,34,24,21,4,31,24,22,25,29,36,10,13,10,42,150,31,12,8,66,52,5,48,14,14,3,9,1,4,7,3,3,3,2,14,4,28,16,24,21,28,
-	16,16,13,6,6,4,4,5,3,6,4,3,1,13,5,5,3,5,1,1,1,22);
-	//книги Библии, которые нужно разделить (если на другом языке)
-	$bigbook = array(1,2,3,4,5,6,7,9,10,11,12,13,14,16,18,19,20,23,24,26,27,40,41,42,43,44,
-	45,46,47,66);
-}
 
 $lang = new Languages50();
 
 $language = $_GET['lang'];
 
 $str_commands = $language."_commands";
-$commands = $lang->$str_commands();
+$commands_array = $lang->$str_commands();
 
 $str_commands_array = $language."_array";
-$commands_array = $lang->$str_commands_array();
-$books_array = $commands_array;
+$books_arrays = $lang->$str_commands_array();
+$books_array = $books_arrays;
 
 echo '<br>';
 
 	for($i=1;$i<=8;$i++) {
-		echo $commands[$i].'<br>';
+		echo $commands_array[$i].'<br>';
 	}
 	
 	if(!is_dir('./'.$language)) mkdir('./'.$language);
@@ -131,7 +179,6 @@ echo '<br>';
 	
 	$fp = fopen($filemain, "w");
 	
-	fwrite($fp, "package in.dobro;\n\n");
 	fwrite($fp, "import javax.microedition.midlet.*;\n");
 	fwrite($fp, "import javax.microedition.lcdui.*;\n\n");
 	fwrite($fp, "import vz.*;\n");
@@ -222,21 +269,21 @@ fwrite($fp, "\t   String textbible;\n");
 fwrite($fp, "\t   String vtextbible;\n\n");
 
 fwrite($fp, "\t   private void CreateCommands() {\n");
-fwrite($fp, "\t   toexit = new Command(\"".$commands_array[2]."\", Command.SCREEN, 2);\n");
-fwrite($fp, "\t   nzglava = new Command(\"".$commands_array[3]."\", Command.SCREEN, 2);\n");
-fwrite($fp, "\t   tonzlist = new Command(\"".$commands_array[9]."\", Command.SCREEN, 2);\n");
-fwrite($fp, "\t   vzglava = new Command(\"".$commands_array[3]."\", Command.SCREEN, 2);\n");
-fwrite($fp, "\t   tovzlist = new Command(\"".$commands_array[8]."\", Command.SCREEN, 2);\n");
-fwrite($fp, "\t   tozavet = new Command(\"".$commands_array[5]."\", Command.SCREEN, 2);\n");
-fwrite($fp, "\t   tonztext = new Command(\"".$commands_array[6]."\", Command.SCREEN, 2);\n");
-fwrite($fp, "\t   tovztext = new Command(\"".$commands_array[6]."\", Command.SCREEN, 2);\n");
-fwrite($fp, "\t   vzornz = new Command(\"".$commands_array[7]."\", Command.SCREEN, 2);\n");
+fwrite($fp, "\t   toexit = new Command(\"".trim(preg_replace('/([^u])/', "$1", json_encode($commands_array[2])), '"')."\", Command.SCREEN, 2);\n");
+fwrite($fp, "\t   nzglava = new Command(\"".trim(preg_replace('/([^u])/', "$1", json_encode($commands_array[3])), '"')."\", Command.SCREEN, 2);\n");
+fwrite($fp, "\t   tonzlist = new Command(\"".trim(preg_replace('/([^u])/', "$1", json_encode($commands_array[9])), '"')."\", Command.SCREEN, 2);\n");
+fwrite($fp, "\t   vzglava = new Command(\"".trim(preg_replace('/([^u])/', "$1", json_encode($commands_array[3])), '"')."\", Command.SCREEN, 2);\n");
+fwrite($fp, "\t   tovzlist = new Command(\"".trim(preg_replace('/([^u])/', "$1", json_encode($commands_array[8])), '"')."\", Command.SCREEN, 2);\n");
+fwrite($fp, "\t   tozavet = new Command(\"".trim(preg_replace('/([^u])/', "$1", json_encode($commands_array[5])), '"')."\", Command.SCREEN, 2);\n");
+fwrite($fp, "\t   tonztext = new Command(\"".trim(preg_replace('/([^u])/', "$1", json_encode($commands_array[6])), '"')."\", Command.SCREEN, 2);\n");
+fwrite($fp, "\t   tovztext = new Command(\"".trim(preg_replace('/([^u])/', "$1", json_encode($commands_array[6])), '"')."\", Command.SCREEN, 2);\n");
+fwrite($fp, "\t   vzornz = new Command(\"".trim(preg_replace('/([^u])/', "$1", json_encode($commands_array[7])), '"')."\", Command.SCREEN, 2);\n");
 fwrite($fp, "\t   }\n\n");
 
 fwrite($fp, "\t   private Displayable zavetlist(int selzavet) {\n\n");
-fwrite($fp, "\t   zavetlist = new List(\"".$commands_array[1]."\", 3);\n");
-fwrite($fp, "\t   zavetlist.append(\"".$commands_array[8]."\",null);\n");
-fwrite($fp, "\t   zavetlist.append(\"".$commands_array[9]."\",null);\n\n");
+fwrite($fp, "\t   zavetlist = new List(\"".trim(preg_replace('/([^u])/', "$1", json_encode($commands_array[1])), '"')."\", 3);\n");
+fwrite($fp, "\t   zavetlist.append(\"".trim(preg_replace('/([^u])/', "$1", json_encode($commands_array[8])), '"')."\",null);\n");
+fwrite($fp, "\t   zavetlist.append(\"".trim(preg_replace('/([^u])/', "$1", json_encode($commands_array[9])), '"')."\",null);\n\n");
 fwrite($fp, "\t   zavetlist.setSelectedIndex(".$language."Bible.zavetsel, true);\n\n");
 fwrite($fp, "\t   zavetlist.addCommand(vzornz);\n");
 fwrite($fp, "\t   zavetlist.addCommand(toexit);\n\n");
@@ -245,10 +292,10 @@ fwrite($fp, "\t   return zavetlist;\n\n");
 fwrite($fp, "\t   }\n\n");
 
 fwrite($fp, "\t   private Displayable vzlist(int vzselglavus) {\n\n");
-fwrite($fp, "\t   vzlist = new List(\"".$commands_array[8]."\", 3);\n");
+fwrite($fp, "\t   vzlist = new List(\"".trim(preg_replace('/([^u])/', "$1", json_encode($commands_array[8])), '"')."\", 3);\n");
 
 	for($i=1;$i<=39;$i++) {
-		fwrite($fp, "\t   vzlist.append(\"".$books_array[$i]."\",null);\n");
+		fwrite($fp, "\t   vzlist.append(\"".trim(preg_replace('/([^u])/', "$1", json_encode($books_array[$i])), '"')."\",null);\n");
 	}
 
 fwrite($fp, "\t   vzlist.setSelectedIndex(".$language."Bible.vzsel, true);\n\n");
@@ -260,10 +307,10 @@ fwrite($fp, "\t   return vzlist;\n\n");
 fwrite($fp, "\t}\n\n");
 
 fwrite($fp, "\t private Displayable nzlist(int nzselglavus) {\n\n");
-fwrite($fp, "\t nzlist = new List(\"".$commands_array[9]."\", 3);\n");
+fwrite($fp, "\t nzlist = new List(\"".trim(preg_replace('/([^u])/', "$1", json_encode($commands_array[9])), '"')."\", 3);\n");
 
 	for($i=40;$i<=66;$i++) {
-		fwrite($fp, "\t nzlist.append(\"".$books_array[$i]."\",null);\n");
+		fwrite($fp, "\t nzlist.append(\"".trim(preg_replace('/([^u])/', "$1", json_encode($books_array[$i])), '"')."\",null);\n");
 	}
 	
 fwrite($fp, "\t nzlist.setSelectedIndex(".$language."Bible.nzsel, true);\n\n");
@@ -279,16 +326,22 @@ fwrite($fp, "\tswitch (intglav) {\n");
 	
 	for($i=1;$i<=27;$i++) {
  	    fwrite($fp, "\tcase ".$i.":\n");
-		fwrite($fp, "\t\tcountglav = ".$glavcount[($i+39)].";\n");
-		fwrite($fp, "\t\tnameglavlist = \"".$books_array[($i+39)]."\";\n");
+		$sql = 'SELECT chapters FROM '.$language.'bible WHERE idbible='.($i+39);
+		$result = getQuery($sql);
+		$row = mysql_fetch_assoc($result);
+		$glavcount = $row['chapters'];
+
+		fwrite($fp, "\t\tcountglav = ".$glavcount.";\n");
+		fwrite($fp, "\t\tnameglavlist = \"".trim(preg_replace('/([^u])/', "$1", json_encode($books_array[($i+39)])), '"')."\";\n");
 	    fwrite($fp, "\tbreak;\n");
 		fwrite($fp, "\n");
 	}
+	
 	fwrite($fp, "\t}\n\n");
 	
 fwrite($fp, "\tnzglavlist = new List(nameglavlist, 3);\n\n");
 fwrite($fp, "\t	for (int i = 1; i<=countglav; i++) {\n");
-fwrite($fp, "\t	String itemglav = \"".$commands_array[3]." \" + i;\n");
+fwrite($fp, "\t	String itemglav = \"".trim(preg_replace('/([^u])/', "$1", json_encode($commands_array[3])), '"')." \" + i;\n");
 fwrite($fp, "\t	nzglavlist.append(itemglav, null);\n");
 fwrite($fp, "\t	}\n\n");
 
@@ -317,8 +370,14 @@ fwrite($fp, "\tswitch (intglav) {\n");
 	
 	for($i=1;$i<=39;$i++) {
  	    fwrite($fp, "\tcase ".$i.":\n");
-		fwrite($fp, "\t\tcountglav = ".$glavcount[($i)].";\n");
-		fwrite($fp, "\t\tnameglavlist = \"".$books_array[($i)]."\";\n");
+		
+		$sql = 'SELECT chapters FROM '.$language.'bible WHERE idbible='.$i;
+		$result = getQuery($sql);
+		$row = mysql_fetch_assoc($result);
+		$glavcount = $row['chapters'];
+		
+		fwrite($fp, "\t\tcountglav = ".$glavcount.";\n");
+		fwrite($fp, "\t\tnameglavlist = \"".trim(preg_replace('/([^u])/', "$1", json_encode($books_array[($i)])), '"')."\";\n");
 	    fwrite($fp, "\tbreak;\n");
 	}
 	fwrite($fp, "\t}\n\n");
@@ -326,9 +385,9 @@ fwrite($fp, "\tswitch (intglav) {\n");
 	fwrite($fp, "\tvzglavlist = new List(nameglavlist, 3);\n\n");
 
 	fwrite($fp, "\tif(intglav != 19) {\n");
-	fwrite($fp, "\theadglav = \"".$commands_array[3] ." \";\n");
+	fwrite($fp, "\theadglav = \"".trim(preg_replace('/([^u])/', "$1", json_encode($commands_array[3])), '"') ." \";\n");
 	fwrite($fp, "\t} else {\n");
-	fwrite($fp, "\theadglav = \"".$commands_array[10]." \";\n");
+	fwrite($fp, "\theadglav = \"".trim(preg_replace('/([^u])/', "$1", json_encode($commands_array[10])), '"')." \";\n");
 	fwrite($fp, "\t}\n\n");
 
 	fwrite($fp, "\t	for (int i = 1; i<=countglav; i++) {\n");
@@ -376,19 +435,18 @@ fwrite($fp, "\tswitch (intglav) {\n");
 		
 		fwrite($fp, "\tcase ".($i-40).":\n");
 		
-		/*
-            if (Bible.nzselglav1 < 11) {
-	    	bible40_1 nareabible1_1 = new bible40_1(Bible.nzselglav1);
-	    	textbible = nareabible1_1 + "";
-			}
-		*/
+		$sql = 'SELECT chapters FROM '.$language.'bible WHERE idbible='.$i;
+		$result = getQuery($sql);
+		$row = mysql_fetch_assoc($result);
+		$glavcount = $row['chapters'];
 		
-		if(in_array($i, $bigbook)) {
-			$countstr = ceil($glavcount[$i]/7);
+		$bigbook = ($glavcount > 12) ? true : false;
+		if($bigbook) {
+			$countstr = ceil($glavcount/7);
 				$counter = 0;
 				for($count=1;$count<=$countstr;$count++){
 					$beginnum = $count*7-7+1;
-					$endnum = (($count*7) <= $glavcount[$i]) ? $count*7 : $glavcount[$i];
+					$endnum = (($count*7) <= $glavcount) ? $count*7 : $glavcount;
 					if($counter<1) {
 						//fwrite($fp, "\t\t <".($endnum+1).";\n");
 						fwrite($fp, "\t\tif (".$language."Bible.nzselglav".($i-39)." < ".($endnum+1).") {\n");
@@ -418,7 +476,7 @@ fwrite($fp, "\tswitch (intglav) {\n");
 			fwrite($fp, "\t\ttextbible = areabible".($i-39)." + \"\";\n");
 		}
 		
-		fwrite($fp, "\t\tnzgoodform = new Form(\"".$books_array[($i)]."\");\n");
+		fwrite($fp, "\t\tnzgoodform = new Form(\"".trim(preg_replace('/([^u])/', "$1", json_encode($books_array[($i)])), '"')."\");\n");
 		fwrite($fp, "\tbreak;\n");
 		
 	}
@@ -440,15 +498,21 @@ fwrite($fp, "\tswitch (intglav) {\n");
 	fwrite($fp, "\tswitch (".$language."Bible.vzsel) {\n");
 	
 	for($i=1;$i<=39;$i++) {
+	
+		$sql = 'SELECT chapters FROM '.$language.'bible WHERE idbible='.$i;
+		$result = getQuery($sql);
+		$row = mysql_fetch_assoc($result);
+		$glavcount = $row['chapters'];
 		
 		fwrite($fp, "\tcase ".($i-1).":\n");
 		
-		if(in_array($i, $bigbook)) {
-			$countstr = ceil($glavcount[$i]/7);
+		$bigbook = ($glavcount > 12) ? true : false;
+		if($bigbook) {
+			$countstr = ceil($glavcount/7);
 				$counter = 0;
 				for($count=1;$count<=$countstr;$count++){
 					$beginnum = $count*7-7+1;
-					$endnum = (($count*7) <= $glavcount[$i]) ? $count*7 : $glavcount[$i];
+					$endnum = (($count*7) <= $glavcount) ? $count*7 : $glavcount;
 					if($counter<1) {
 						//fwrite($fp, "\t\t <".($endnum+1).";\n");
 						fwrite($fp, "\t\tif (".$language."Bible.vzselglav".($i)." < ".($endnum+1).") {\n");
@@ -478,7 +542,7 @@ fwrite($fp, "\tswitch (intglav) {\n");
 			fwrite($fp, "\t\tvtextbible = vareabible".($i)." + \"\";\n");
 		}
 		
-		fwrite($fp, "\t\tvzgoodform = new Form(\"".$books_array[($i)]."\");\n");
+		fwrite($fp, "\t\tvzgoodform = new Form(\"".trim(preg_replace('/([^u])/', "$1", json_encode($books_array[($i)])), '"')."\");\n");
 		fwrite($fp, "\tbreak;\n");
 		
 	}
@@ -592,38 +656,29 @@ fwrite($fp, "\tswitch (intglav) {\n");
 	fwrite($fp, "\t}\n");
 
 	fclose ($fp);
-	
-	echo '<br><hr>сгенерирован код на "'.$language.'" языке';
-	
+
 }
 
+//генерация классов текста Библии
 function javabible_generator2($language) {
 
-if ($language == 'ru') {
-	$glavcount = array(0,50,40,27,36,34,24,21,4,31,24,22,25,29,36,10,13,10,42,150,31,12,8,66,52,5,48,14,14,3,9,1,4,7,3,3,3,2,14,4,28,16,24,21,28,
-	5,5,3,5,1,1,1,16,16,13,6,6,4,4,5,3,6,4,3,1,13,22);
-	//книги Библии, которые нужно разделить (если на русском языке)
-	$bigbook = array(1,2,3,4,5,6,7,9,10,11,12,13,14,16,18,19,20,23,24,26,27,40,41,42,43,44,
-	52,53,54,66);
-} else {
-	$glavcount = array(0,50,40,27,36,34,24,21,4,31,24,22,25,29,36,10,13,10,42,150,31,12,8,66,52,5,48,14,14,3,9,1,4,7,3,3,3,2,14,4,28,16,24,21,28,
-	16,16,13,6,6,4,4,5,3,6,4,3,1,13,5,5,3,5,1,1,1,22);
-	//книги Библии, которые нужно разделить (если на другом языке)
-	$bigbook = array(1,2,3,4,5,6,7,9,10,11,12,13,14,16,18,19,20,23,24,26,27,40,41,42,43,44,
-	45,46,47,66);
-}
-	
 $tablename = $language.'text';
 	
 	
 for($i = 1; $i <= 66; $i++) {
 
-$countglav = $glavcount[$i];
+$sql = 'SELECT chapters FROM '.$language.'bible WHERE idbible='.$i;
+$result = getQuery($sql);
+$row = mysql_fetch_assoc($result);
+$glavcount = $row['chapters'];
+
+$countglav = $glavcount;
 $testament = ($i < 40) ? 'vz' : 'nz';
 	
 
-		if(in_array($i, $bigbook)) {
-		$countstr = ceil($glavcount[$i]/7);
+		$bigbook = ($glavcount > 12) ? true : false;
+		if($bigbook) {
+		$countstr = ceil($glavcount/7);
 
 			for($count=1;$count<=$countstr;$count++){
 				
@@ -636,13 +691,16 @@ $testament = ($i < 40) ? 'vz' : 'nz';
 				fwrite($fp, "\tString bibletext;\n\n");
 				
 				$beginnum = $count*7-7+1;
-				$endnum = (($count*7) <= $glavcount[$i]) ? $count*7 : $glavcount[$i];
+				$endnum = (($count*7) <= $glavcount) ? $count*7 : $glavcount;
 				
 					for($ii = $beginnum; $ii <= $endnum; $ii++) {
 						$result = getQuery('SELECT poem, chapter, poemtext FROM '.$tablename.' WHERE bible='.$i.' AND chapter='.$ii);
 					fwrite($fp, "\tprivate String b" . $i . "_" . $ii . "=\"");
 						while( $row = mysql_fetch_assoc($result) ) {
-							fwrite($fp, $row['poem'] . ' ' . str_replace('"','\"',$row['poemtext']) . '\n');
+							$text = str_replace('"','\"',$row['poemtext']);
+							$text = str_replace('/','',$text);
+							$finaltext = trim(preg_replace('/([^u])/', "$1", json_encode($text)), '"');
+							fwrite($fp, $row['poem'] . ' ' . $finaltext . '\n');
 						}
 						fwrite($fp, "\";\n\n");
 					}
@@ -679,7 +737,10 @@ $testament = ($i < 40) ? 'vz' : 'nz';
 					$result = getQuery('SELECT poem, chapter, poemtext FROM '.$tablename.' WHERE bible='.$i.' AND chapter='.$ii);
 					fwrite($fp, "\tprivate String b" . $i . "_" . $ii . "=\"");
 						while( $row = mysql_fetch_assoc($result) ) {
-							fwrite($fp, $row['poem'] . ' ' . str_replace('"','\"',$row['poemtext']) . '\n');
+							$text = str_replace('"','\"',$row['poemtext']);
+							$text = str_replace('/','',$text);
+							$finaltext = trim(preg_replace('/([^u])/', "$1", json_encode($text)), '"');
+							fwrite($fp, $row['poem'] . ' ' . $finaltext . '\n');
 						}
 					fwrite($fp, "\";\n\n");
 					
@@ -708,14 +769,28 @@ $testament = ($i < 40) ? 'vz' : 'nz';
 
 	}
 	
-	echo 'сгенерирован код на "'.$language.'" языке';
-	
 }
 
-if(@$_GET['lang']) { 
-	javabible_generator1($_GET['lang']);
-	javabible_generator2($_GET['lang']);
+$trueautomatic50 = false;
+
+if($trueautomatic50) {
+	for($i = 1; $i <= 50; $i++) {
+		$_GET['lang'] = $langdomens[$i];
+		javabible_generator1($langdomens[$i]);
+		echo '<br>Сгенерирован интерфейс на языке '.$langdomens[$i];
+		javabible_generator2($langdomens[$i]);
+		echo '<br>Сгенерированы классы Библии на языке '.$langdomens[$i].'<hr>';
+	}
+} else {
+//	if(@$_GET['lang']) { 
+		$_GET['lang'] = 'no';
+		javabible_generator1($_GET['lang']);
+		javabible_generator2($_GET['lang']);
+//	}
 }
+
+
+
 ?>
 </body>
 </html>
